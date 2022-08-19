@@ -3,7 +3,7 @@
  * @Date: 2022-08-18 16:44:01
  * @Author: 米虫
  * @LastEditors: 米虫
- * @LastEditTime: 2022-08-18 23:04:41
+ * @LastEditTime: 2022-08-19 12:47:25
  */
 module.exports = {
   root: true,
@@ -23,6 +23,7 @@ module.exports = {
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    '@typescript-eslint/no-empty-function': 'off'
   }
 }

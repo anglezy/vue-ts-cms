@@ -3,7 +3,7 @@
  * @Date: 2022-08-18 16:44:01
  * @Author: 米虫
  * @LastEditors: 米虫
- * @LastEditTime: 2022-08-19 01:35:37
+ * @LastEditTime: 2022-08-19 12:33:06
 -->
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
@@ -13,16 +13,18 @@
   <router-link to="/login">首页</router-link>
   <router-link to="/main">主页</router-link>
   <router-view></router-view>
+  <el-button>456</el-button>
+   <!-- <el-button type="primary">456</el-button> -->
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from 'components/HelloWorld.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    // HelloWorld
   }
 })
 </script>
