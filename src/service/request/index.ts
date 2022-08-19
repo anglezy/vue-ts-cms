@@ -3,7 +3,7 @@ import type { AxiosInstance } from 'axios'
 import type { HYRequestInterceptors, HYRequestConfig } from './type'
 
 import { ElLoading } from 'element-plus'
-import { ILoadingInstance } from 'element-plus/lib/el-loading/src/loading.type'
+import { LoadingInstance } from 'element-plus/lib/components/loading/src/loading'
 
 const DEAFULT_LOADING = true
 
@@ -11,7 +11,7 @@ class HYRequest {
   instance: AxiosInstance
   interceptors?: HYRequestInterceptors
   showLoading: boolean
-  loading?: ILoadingInstance
+  loading?: LoadingInstance
 
   constructor(config: HYRequestConfig) {
     // 创建axios实例
