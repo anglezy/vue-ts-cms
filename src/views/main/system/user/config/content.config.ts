@@ -1,10 +1,3 @@
-/*
- * @Description: 这是***页面（组件）
- * @Date: 2022-08-27 18:06:22
- * @Author: 米虫
- * @LastEditors: 米虫
- * @LastEditTime: 2022-08-27 18:06:31
- */
 export const contentTableConfig = {
   title: '用户列表',
   propList: [
