@@ -3,7 +3,7 @@
  * @Date: 2022-08-19 15:38:11
  * @Author: 米虫
  * @LastEditors: 米虫
- * @LastEditTime: 2022-08-19 16:43:16
+ * @LastEditTime: 2022-08-20 15:31:20
  */
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 
@@ -17,5 +17,4 @@ export interface HYRequestInterceptors<T = AxiosResponse> {
 export interface HYRequestConfig<T = AxiosResponse> extends AxiosRequestConfig {
   interceptors?: HYRequestInterceptors<T>
   showLoading?: boolean
-  headers?: any
 }

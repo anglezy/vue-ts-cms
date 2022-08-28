@@ -3,59 +3,30 @@
  * @Date: 2022-08-18 16:44:01
  * @Author: 米虫
  * @LastEditors: 米虫
- * @LastEditTime: 2022-08-19 23:37:12
+ * @LastEditTime: 2022-08-27 18:51:30
  */
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import { globalRegister } from './global'
 // 全局引用
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import './assets/css/index.less'
 
-// import './service/axios.ts'
-import hyRequest from './service'
+import { setupStore } from './store'
+// 如果您正在使用CDN引入，请删除下面一行。
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 const app = createApp(App)
-app.use(router)
+// 注册element-plus/其他
+app.use(globalRegister)
+setupStore()
 app.use(store)
 app.use(ElementPlus)
-app.mount('#app')
-
-hyRequest.request({
-  url: '/home/multidata',
-  method: 'GET',
-  headers: {},
-  interceptors: {
-    requestInterceptor: (config) => {
-      console.log('单独请求的config')
-      // AxiosRequestConfig<any>.headers?: AxiosRequestHeaders | undefined
-      if (config && config.headers) {
-        config.headers['token'] = '123'
-      }
-      return config
-    },
-    responseInterceptor: (res) => {
-      console.log('单独响应的response')
-      return res
-    }
-  }
-})
-
-interface DataType {
-  data: any
-  returnCode: string
-  success: boolean
+app.use(router)
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
 }
-
-hyRequest
-  .get<DataType>({
-    url: '/home/multidata',
-    showLoading: false
-  })
-  .then((res) => {
-    console.log(res.data)
-    console.log(res.returnCode)
-    console.log(res.success)
-  })
+app.mount('#app')

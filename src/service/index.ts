@@ -3,11 +3,12 @@
  * @Date: 2022-08-19 16:02:45
  * @Author: 米虫
  * @LastEditors: 米虫
- * @LastEditTime: 2022-08-19 16:48:23
+ * @LastEditTime: 2022-08-23 11:28:12
  */
 // service统一出口
 import HYRequest from './request'
 import { BASE_URL, TIME_OUT } from './request/config'
+import localCache from '@/utils/cache'
 
 const hyRequest = new HYRequest({
   baseURL: BASE_URL,
@@ -15,7 +16,7 @@ const hyRequest = new HYRequest({
   interceptors: {
     requestInterceptor: (config) => {
       // 携带token的拦截
-      const token = ''
+      const token = localCache.getCache('token')
       if (token) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         config.headers!.Authorization = `Bearer ${token}`
