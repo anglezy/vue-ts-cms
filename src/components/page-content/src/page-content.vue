@@ -1,21 +1,21 @@
-<!--
- * @Description: 这是***页面（组件）
- * @Date: 2022-08-27 18:00:43
- * @Author: 米虫
- * @LastEditors: 米虫
- * @LastEditTime: 2022-08-28 16:44:06
--->
 <template>
   <div class="page-content">
     <hy-table
       :listData="dataList"
-      v-bind="contentTableConfig"
       :listCount="dataCount"
+      v-bind="contentTableConfig"
       v-model:page="pageInfo"
     >
       <!-- 1.header中的插槽 -->
       <template #headerHandler>
-        <el-button type="primary" size="medium">新建用户</el-button>
+        <el-button
+          v-if="isCreate"
+          type="primary"
+          size="medium"
+          @click="handleNewClick"
+        >
+          新建用户
+        </el-button>
       </template>
 
       <!-- 2.列中的插槽 -->
@@ -34,10 +34,25 @@
       <template #updateAt="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handle-btns">
-          <el-button :icon="Edit" size="mini" type="text">编辑</el-button>
-          <el-button :icon="Delete" size="mini" type="text">删除</el-button>
+          <el-button
+            v-if="isUpdate"
+            icon="el-icon-edit"
+            size="mini"
+            type="text"
+            @click="handleEditClick(scope.row)"
+          >
+            编辑
+          </el-button>
+          <el-button
+            v-if="isDelete"
+            icon="el-icon-delete"
+            size="mini"
+            type="text"
+            @click="handleDeleteClick(scope.row)"
+            >删除</el-button
+          >
         </div>
       </template>
 
@@ -76,20 +91,9 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ['newBtnClick', 'editBtnClick'],
+  setup(props, { emit }) {
     const store = useStore()
-    // store.dispatch('system/getPageListAction', {
-    //   pageName: props.pageName,
-    //   queryInfo: {
-    //     offset: 0,
-    //     size: 10
-    //   }
-    // })
-
-    // const dataList = computed(() =>
-    //   store.getters[`system/pageListData`](props.pageName)
-    // )
-    // const userCount = computed(() => store.state.system.userCount)
 
     // 0.获取操作的权限
     const isCreate = usePermission(props.pageName, 'create')
@@ -100,9 +104,10 @@ export default defineComponent({
     // 1.双向绑定pageInfo
     const pageInfo = ref({ currentPage: 1, pageSize: 10 })
     watch(pageInfo, () => getPageData())
+
     // 2.发送网络请求
     const getPageData = (queryInfo: any = {}) => {
-      // if (!isQuery) return
+      if (!isQuery) return
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
@@ -113,6 +118,7 @@ export default defineComponent({
       })
     }
     getPageData()
+
     // 3.从vuex中获取数据
     const dataList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
@@ -131,6 +137,22 @@ export default defineComponent({
         return true
       }
     )
+
+    // 5.删除/编辑/新建操作
+    const handleDeleteClick = (item: any) => {
+      console.log(item)
+      store.dispatch('system/deletePageDataAction', {
+        pageName: props.pageName,
+        id: item.id
+      })
+    }
+    const handleNewClick = () => {
+      emit('newBtnClick')
+    }
+    const handleEditClick = (item: any) => {
+      emit('editBtnClick', item)
+    }
+
     return {
       dataList,
       getPageData,
@@ -139,7 +161,10 @@ export default defineComponent({
       otherPropSlots,
       isCreate,
       isUpdate,
-      isDelete
+      isDelete,
+      handleDeleteClick,
+      handleNewClick,
+      handleEditClick
     }
   }
 })

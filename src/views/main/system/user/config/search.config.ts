@@ -1,15 +1,8 @@
-/*
- * @Description: 这是***页面（组件）
- * @Date: 2022-08-24 16:36:34
- * @Author: 米虫
- * @LastEditors: 米虫
- * @LastEditTime: 2022-08-28 14:32:30
- */
 import { IForm } from '@/base-ui/form'
 
 export const searchFormConfig: IForm = {
   labelWidth: '120px',
-  itemLayout: {
+  itemStyle: {
     padding: '10px 40px'
   },
   colLayout: {
