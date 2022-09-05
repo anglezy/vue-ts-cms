@@ -1,14 +1,7 @@
-/*
- * @Description: 这是***页面（组件）
- * @Date: 2022-08-28 17:57:50
- * @Author: 米虫
- * @LastEditors: 米虫
- * @LastEditTime: 2022-08-28 17:58:06
- */
 import { ref } from 'vue'
 import PageModal from '@/components/page-modal'
 
-type CallbackFn = () => void
+type CallbackFn = (item?: any) => void
 
 export function usePageModal(newCb?: CallbackFn, editCb?: CallbackFn) {
   const pageModalRef = ref<InstanceType<typeof PageModal>>()
@@ -25,7 +18,7 @@ export function usePageModal(newCb?: CallbackFn, editCb?: CallbackFn) {
     if (pageModalRef.value) {
       pageModalRef.value.dialogVisible = true
     }
-    editCb && editCb()
+    editCb && editCb(item)
   }
   return [pageModalRef, defaultInfo, handleNewData, handleEditData]
 }

@@ -3,7 +3,7 @@
  * @Date: 2022-08-24 15:42:17
  * @Author: 米虫
  * @LastEditors: 米虫
- * @LastEditTime: 2022-08-24 16:09:15
+ * @LastEditTime: 2022-08-31 09:53:06
 -->
 <template>
   <div class="user-info">
@@ -17,7 +17,9 @@
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item :icon="'Close'">退出登录</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-circle-close" @click="handleExitClick"
+            >退出登录</el-dropdown-item
+          >
           <el-dropdown-item divided>用户信息</el-dropdown-item>
           <el-dropdown-item>系统管理</el-dropdown-item>
         </el-dropdown-menu>
@@ -29,14 +31,23 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
 import { useStore } from '@/store'
+import { useRouter } from 'vue-router'
+import localCache from '@/utils/cache'
 
 export default defineComponent({
   setup() {
     const store = useStore()
     const name = computed(() => store.state.login.userInfo.name)
 
+    const router = useRouter()
+    const handleExitClick = () => {
+      localCache.deleteCache('token')
+      router.push('/main')
+    }
+
     return {
-      name
+      name,
+      handleExitClick
     }
   }
 })

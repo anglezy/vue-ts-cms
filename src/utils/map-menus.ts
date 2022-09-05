@@ -10,7 +10,6 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
   const allRoutes: RouteRecordRaw[] = []
   const routeFiles = require.context('../router/main', true, /\.ts/)
   routeFiles.keys().forEach((key) => {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const route = require('../router/main' + key.split('.')[1])
     allRoutes.push(route.default)
   })
@@ -112,6 +111,23 @@ export function mapMenusToPermissions(userMenus: any[]) {
   _recurseGetPermission(userMenus)
 
   return permissions
+}
+
+export function menuMapLeafKeys(menuList: any[]) {
+  const leftKeys: number[] = []
+
+  const _recurseGetLeaf = (menuList: any[]) => {
+    for (const menu of menuList) {
+      if (menu.children) {
+        _recurseGetLeaf(menu.children)
+      } else {
+        leftKeys.push(menu.id)
+      }
+    }
+  }
+  _recurseGetLeaf(menuList)
+
+  return leftKeys
 }
 
 export { firstMenu }

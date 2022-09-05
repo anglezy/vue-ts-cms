@@ -1,14 +1,8 @@
-/*
- * @Description: 这是***页面（组件）
- * @Date: 2022-08-19 01:30:48
- * @Author: 米虫
- * @LastEditors: 米虫
- * @LastEditTime: 2022-08-28 17:59:00
- */
 import { createStore, Store, useStore as useVuexStore } from 'vuex'
 
 import login from './login/login'
 import system from './main/system/system'
+import dashboard from './main/analysis/dashboard'
 
 import { getPageListData } from '@/service/main/system/system'
 
@@ -17,10 +11,11 @@ import { IRootState, IStoreType } from './types'
 const store = createStore<IRootState>({
   state() {
     return {
-      name: 'coderwhy',
+      name: 'zy',
       age: 18,
       entireDepartment: [],
-      entireRole: []
+      entireRole: [],
+      entireMenu: []
     }
   },
   mutations: {
@@ -29,6 +24,9 @@ const store = createStore<IRootState>({
     },
     changeEntireRole(state, list) {
       state.entireRole = list
+    },
+    changeEntireMenu(state, list) {
+      state.entireMenu = list
     }
   },
   getters: {},
@@ -45,21 +43,25 @@ const store = createStore<IRootState>({
         size: 1000
       })
       const { list: roleList } = roleResult.data
+      const menuResult = await getPageListData('/menu/list', {})
+      const { list: menuList } = menuResult.data
 
       // 2.保存数据
       commit('changeEntireDepartment', departmentList)
       commit('changeEntireRole', roleList)
+      commit('changeEntireMenu', menuList)
     }
   },
   modules: {
     login,
-    system
+    system,
+    dashboard
   }
 })
 
 export function setupStore() {
   store.dispatch('login/loadLocalLogin')
-  store.dispatch('getInitialDataAction')
+  // store.dispatch('getInitialDataAction')
 }
 
 export function useStore(): Store<IStoreType> {

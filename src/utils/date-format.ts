@@ -3,7 +3,7 @@
  * @Date: 2022-08-27 16:44:49
  * @Author: 米虫
  * @LastEditors: 米虫
- * @LastEditTime: 2022-08-27 16:45:05
+ * @LastEditTime: 2022-08-31 09:52:16
  */
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -17,7 +17,7 @@ export function formatUtcString(
   utcString: string,
   format: string = DATE_TIME_FORMAT
 ) {
-  return dayjs.utc(utcString).format(format)
+  return dayjs.utc(utcString).utcOffset(8).format(format)
 }
 
 export function formatTimestamp(
